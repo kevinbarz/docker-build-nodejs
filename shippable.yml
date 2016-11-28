@@ -1,2 +1,21 @@
-script:
-  - true
+language: node_js
+
+node_js:
+  - 5.0.0
+
+integrations:                               #required only for private images
+    hub:
+      - integrationName: docker-hub-integration
+        type: docker
+        branches:
+          only:
+            - master
+            - dev
+build:
+  ci:
+    - npm install
+  post_ci:
+    - docker build -t kbarz/langtool-loopbackapi:latest .
+
+    #push your image
+    - docker push kbarz/langtool-loopbackapi:latest
